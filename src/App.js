@@ -1,20 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 // 아래 query 안에 사용자가 input 내에 타이핑 한 깃헙 아이디가 들어가면 돼요:
 // const API_URL = `https://api.github.com/search/users?q=${query}`;
 
 export default function App() {
-  const [value, setValue] = useState("");
+  const [word, setWord] = useState("");
+  const [users, setUsers] = useState([]);
 
   function onSearchChange(e) {
-    setValue(e.target.value);
+    setWord(e.target.value);
   }
 
-  //   async function onSearchSubmit() {}
-  async function onSearchSubmit(e) {
-    alert(value);
+  const getUsers = async (word) => {
+    const res = await fetch("https://api.github.com/search/users?q=${word}");
+    console.log("res__", res);
+    const json = await res.json();
+    console.log("json__", json);
+    setUsers(json);
+  };
+
+  async function onSearchSubmit(event) {
+    event.preventDefault();
   }
+
+  useEffect((word) => {
+    getUsers(word);
+  }, []);
 
   return (
     <div className="app">
@@ -23,7 +35,7 @@ export default function App() {
         <Form
           onChange={onSearchChange}
           onSubmit={onSearchSubmit}
-          value={value}
+          value={word}
         />
         <h3>Results</h3>
         <div id="results">
