@@ -12,20 +12,28 @@ export default function App() {
     setWord(e.target.value);
   }
 
-  const getUsers = async (word) => {
+  async function onSearchSubmit(event) {
+    event.preventDefault();
     const res = await fetch("https://api.github.com/search/users?q=${word}");
     console.log("res__", res);
     const json = await res.json();
     console.log("json__", json);
-    setUsers(json);
-  };
-
-  async function onSearchSubmit(event) {
-    event.preventDefault();
+    console.log(word);
+    // getUsers(word);
+    console.log(users);
   }
 
+  //   const getUsers = async (word) => {
+  //     const res = await fetch("https://api.github.com/search/users?q=${word}");
+  //     console.log("res__", res);
+  //     const json = await res.json();
+  //     console.log("json__", json);
+  //     setUsers(json);
+  //   };
+
   useEffect((word) => {
-    getUsers(word);
+    onSearchSubmit(word);
+    //   getUsers(word);
   }, []);
 
   return (
