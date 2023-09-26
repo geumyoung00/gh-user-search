@@ -23,12 +23,12 @@ export default function App() {
     console.log("res__", res);
     const json = await res.json();
     console.log("json__", json);
-    setSearedUsers(json);
+    setSearedUsers(json.items);
     console.log("users__", searcedhUsers);
   };
 
-  useEffect((word) => {
-    getUsers(word);
+  useEffect(() => {
+    // getUsers();
   }, []);
 
   return (
@@ -43,7 +43,7 @@ export default function App() {
         <h3>Results</h3>
         <div id="results">
           <div>
-            {[].map((user) => (
+            {searcedhUsers.map((user) => (
               <User
                 key={user.login}
                 avatar={user.avatar_url}
