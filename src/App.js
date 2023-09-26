@@ -6,7 +6,7 @@ import "./App.css";
 
 export default function App() {
   const [word, setWord] = useState("");
-  const [users, setUsers] = useState([]);
+  const [searcedhUsers, setSearedUsers] = useState([]);
 
   function onSearchChange(e) {
     setWord(e.target.value);
@@ -14,26 +14,21 @@ export default function App() {
 
   async function onSearchSubmit(event) {
     event.preventDefault();
-    const res = await fetch("https://api.github.com/search/users?q=${word}");
+    console.log(word);
+    getUsers(word);
+  }
+
+  const getUsers = async (word) => {
+    const res = await fetch(`https://api.github.com/search/users?q=${word}`);
     console.log("res__", res);
     const json = await res.json();
     console.log("json__", json);
-    console.log(word);
-    // getUsers(word);
-    console.log(users);
-  }
-
-  //   const getUsers = async (word) => {
-  //     const res = await fetch("https://api.github.com/search/users?q=${word}");
-  //     console.log("res__", res);
-  //     const json = await res.json();
-  //     console.log("json__", json);
-  //     setUsers(json);
-  //   };
+    setSearedUsers(json);
+    console.log("users__", searcedhUsers);
+  };
 
   useEffect((word) => {
-    onSearchSubmit(word);
-    //   getUsers(word);
+    getUsers(word);
   }, []);
 
   return (
